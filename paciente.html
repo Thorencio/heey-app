@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEEY!! - Plataforma de Consultas Médicas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 64px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .tagline {
+            font-size: 22px;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .card-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .card-button {
+            margin-top: 25px;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 48px;
+            }
+
+            .tagline {
+                font-size: 18px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">HEEY!!</div>
+            <div class="tagline">Tu plataforma de consultas médicas al instante</div>
+        </div>
+
+        <div class="cards-container">
+            <!-- Tarjeta para Pacientes -->
+            <a href="paciente.html" class="card">
+                <div class="card-icon">🩺</div>
+                <h2 class="card-title">Soy Paciente</h2>
+                <p class="card-description">
+                    Busca profesionales de salud cerca de ti y agenda tu consulta al instante.
+                </p>
+                <button class="card-button">Buscar Profesional</button>
+            </a>
+
+            <!-- Tarjeta para Dueños de Clínicas -->
+            <a href="clinica.html" class="card">
+                <div class="card-icon">🏥</div>
+                <h2 class="card-title">Tengo una Clínica</h2>
+                <p class="card-description">
+                    Arrienda tus espacios disponibles a profesionales de la salud verificados.
+                </p>
+                <button class="card-button">Publicar Espacio</button>
+            </a>
+
+            <!-- Tarjeta para Profesionales -->
+            <a href="profesional.html" class="card">
+                <div class="card-icon">👨‍⚕️</div>
+                <h2 class="card-title">Soy Profesional</h2>
+                <p class="card-description">
+                    Arrienda espacios de consulta por horas y gestiona tus citas fácilmente.
+                </p>
+                <button class="card-button">Ver Espacios</button>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 HEEY!! - Conectando salud con tecnología</p>
+        </div>
+    </div>
+</body>
+</html>

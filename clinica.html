@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Profesional - HEEY!!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .result-info h3 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .result-info .specialty {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .result-distance {
+            background: #e6fffa;
+            color: #047857;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .result-details {
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .result-details p {
+            margin-bottom: 8px;
+        }
+
+        .result-details strong {
+            color: #2d3748;
+        }
+
+        .book-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .book-button:hover {
+            transform: scale(1.05);
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .search-card {
+                padding: 30px 20px;
+            }
+
+            .result-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        
+        <div class="header">
+            <div class="logo">HEEY!!</div>
+            <div class="title">Buscar Profesional</div>
+            <div class="subtitle">Encuentra profesionales de salud cerca de ti</div>
+        </div>
+
+        <div class="search-card">
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="direccion">Tu Dirección</label>
+                    <input 
+                        type="text" 
+                        id="direccion" 
+                        name="direccion" 
+                        placeholder="Ej: Av. Providencia 1234, Santiago"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="especialidad">Especialidad que buscas</label>
+                    <select id="especialidad" name="especialidad" required>
+                        <option value="">Todas las especialidades</option>
+                        <option value="Kinesiología">Kinesiología</option>
+                        <option value="Medicina General">Medicina General</option>
+                        <option value="Psicología">Psicología</option>
+                        <option value="Odontología">Odontología</option>
+                        <option value="Nutrición">Nutrición</option>
+                        <option value="Oftalmología">Oftalmología</option>
+                        <option value="Cardiología">Cardiología</option>
+                        <option value="Dermatología">Dermatología</option>
+                        <option value="Traumatología">Traumatología</option>
+                        <option value="Pediatría">Pediatría</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="search-button">
+                    🔍 Buscar Profesionales
+                </button>
+            </form>
+        </div>
+
+        <div id="resultsContainer" class="results-container">
+            <!-- Los resultados se cargarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Datos simulados de profesionales (en producción vendrían de una base de datos)
+        const profesionalesDisponibles = [
+            {
+                id: 1,
+                nombre: "Dr. Juan Pérez",
+                especialidad: "Medicina General",
+                clinica: "Clínica Central",
+                direccion: "Av. Libertador 890, Santiago",
+                distancia: 1.2,
+                precio: 25000,
+                disponibilidad: "Hoy a las 15:00"
+            },
+            {
+                id: 2,
+                nombre: "Dra. María González",
+                especialidad: "Kinesiología",
+                clinica: "Centro Kinésico ProSalud",
+                direccion: "Av. Providencia 1500, Santiago",
+                distancia: 2.5,
+                precio: 20000,
+                disponibilidad: "Mañana a las 10:00"
+            },
+            {
+                id: 3,
+                nombre: "Dr. Carlos Rodríguez",
+                especialidad: "Psicología",
+                clinica: "Clínica Mental Health",
+                direccion: "Las Condes 2200, Santiago",
+                distancia: 3.1,
+                precio: 30000,
+                disponibilidad: "Hoy a las 17:00"
+            },
+            {
+                id: 4,
+                nombre: "Dra. Ana Martínez",
+                especialidad: "Nutrición",
+                clinica: "Centro NutriVida",
+                direccion: "Av. Apoquindo 3000, Las Condes",
+                distancia: 4.0,
+                precio: 22000,
+                disponibilidad: "Mañana a las 14:00"
+            },
+            {
+                id: 5,
+                nombre: "Dr. Pedro Silva",
+                especialidad: "Odontología",
+                clinica: "Dental Care Center",
+                direccion: "Av. Vicuña Mackenna 1200, Santiago",
+                distancia: 1.8,
+                precio: 35000,
+                disponibilidad: "Hoy a las 16:30"
+            }
+        ];
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const direccion = document.getElementById('direccion').value;
+            const especialidad = document.getElementById('especialidad').value;
+            
+            // Filtrar profesionales
+            let resultados = profesionalesDisponibles;
+            
+            if (especialidad) {
+                resultados = resultados.filter(p => p.especialidad === especialidad);
+            }
+            
+            // Ordenar por distancia
+            resultados.sort((a, b) => a.distancia - b.distancia);
+            
+            // Mostrar resultados
+            mostrarResultados(resultados, direccion);
+        });
+
+        function mostrarResultados(resultados, direccion) {
+            const container = document.getElementById('resultsContainer');
+            
+            if (resultados.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        😔 No encontramos profesionales disponibles para esa especialidad cerca de ti.
+                        <br>Intenta con otra especialidad o amplía tu búsqueda.
+                    </div>
+                `;
+            } else {
+                container.innerHTML = resultados.map(prof => `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-info">
+                                <h3>${prof.nombre}</h3>
+                                <p class="specialty">${prof.especialidad}</p>
+                            </div>
+                            <div class="result-distance">📍 ${prof.distancia} km</div>
+                        </div>
+                        <div class="result-details">
+                            <p><strong>Clínica:</strong> ${prof.clinica}</p>
+                            <p><strong>Dirección:</strong> ${prof.direccion}</p>
+                            <p><strong>Próxima disponibilidad:</strong> ${prof.disponibilidad}</p>
+                            <p><strong>Precio consulta:</strong> $${prof.precio.toLocaleString('es-CL')}</p>
+                        </div>
+                        <button class="book-button" onclick="reservar(${prof.id})">
+                            📅 Reservar Hora
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            container.classList.add('show');
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function reservar(profId) {
+            const profesional = profesionalesDisponibles.find(p => p.id === profId);
+            alert(`¡Reserva confirmada! 🎉\n\nProfesional: ${profesional.nombre}\nEspecialidad: ${profesional.especialidad}\nClínica: ${profesional.clinica}\nHorario: ${profesional.disponibilidad}\n\nRecibirás un email de confirmación.`);
+        }
+    </script>
+</body>
+</html>

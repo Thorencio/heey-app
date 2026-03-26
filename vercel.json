@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Espacio - HEEY!!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .back-button:hover { opacity: 1; }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .title { font-size: 28px; margin-bottom: 10px; }
+
+        .subtitle { font-size: 16px; opacity: 0.9; }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .form-section-title {
+            color: #667eea;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-group { margin-bottom: 25px; }
+
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-group label .required { color: #e53e3e; }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group textarea { min-height: 100px; resize: vertical; }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            color: #718096;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .success-message strong {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .espacios-list {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .espacios-list h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .espacio-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .espacio-item h3 {
+            color: #2d3748;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .espacio-item p {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .espacio-status {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .form-card { padding: 30px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+
+        <div class="header">
+            <div class="logo">HEEY!!</div>
+            <div class="title">Publicar Espacio</div>
+            <div class="subtitle">Arrienda tus consultorios a profesionales verificados</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-section-title">📋 Información de la Clínica</h2>
+
+            <form id="clinicaForm">
+                <div class="form-group">
+                    <label for="nombreClinica">
+                        Nombre de la Clínica <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="nombreClinica"
+                        name="nombreClinica"
+                        placeholder="Ej: Clínica Santa María"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">
+                        Dirección <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="direccion"
+                        name="direccion"
+                        placeholder="Ej: Av. Providencia 1234, Santiago"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="comuna">
+                            Comuna <span class="required">*</span>
+                        </label>
+                        <select id="comuna" name="comuna" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Santiago Centro">Santiago Centro</option>
+                            <option value="Providencia">Providencia</option>
+                            <option value="Las Condes">Las Condes</option>
+                            <option value="Vitacura">Vitacura</option>
+                            <option value="Ñuñoa">Ñuñoa</option>
+                            <option value="La Reina">La Reina</option>
+                            <option value="Maipú">Maipú</option>
+                            <option value="La Florida">La Florida</option>
+                            <option value="Puente Alto">Puente Alto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">
+                            Teléfono <span class="required">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            placeholder="+56912345678"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <h2 class="form-section-title" style="margin-top: 40px;">🏢 Detalles del Espacio</h2>
+
+                <div class="form-group">
+                    <label for="tipoEspacio">
+                        Tipo de Espacio <span class="required">*</span>
+                    </label>
+                    <select id="tipoEspacio" name="tipoEspacio" required>
+                        <option value="">Seleccionar</option>
+                        <option value="Consultorio Individual">Consultorio Individual</option>
+                        <option value="Box de Atención">Box de Atención</option>
+                        <option value="Sala de Procedimientos">Sala de Procedimientos</option>
+                        <option value="Sala de Kinesiología">Sala de Kinesiología</option>
+                        <option value="Sala de Agentes Físicos">Sala de Agentes Físicos</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipamiento">
+                        Equipamiento Disponible
+                    </label>
+                    <textarea
+                        id="equipamiento"
+                        name="equipamiento"
+                        placeholder="Ej: Camilla, escritorio, sillas, computador, tensiómetro, etc."
+                    ></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precioHora">
+                            Precio por Hora <span class="required">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            id="precioHora"
+                            name="precioHora"
+                            placeholder="15000"
+                            min="5000"
+                            required
+                        >
+                        <small>Precio en pesos chilenos (CLP)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="metrosCuadrados">
+                            Metros Cuadrados
+                        </label>
+                        <input
+                            type="number"
+                            id="metrosCuadrados"
+                            name="metrosCuadrados"
+                            placeholder="20"
+                            min="10"
+                        >
+                    </div>
+                </div>
+
+                <h2 class="form-section-title" style="margin-top: 40px;">📅 Disponibilidad</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="diasDisponibles">
+                            Días Disponibles <span class="required">*</span>
+                        </label>
+                        <select id="diasDisponibles" name="diasDisponibles" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Lunes a Viernes">Lunes a Viernes</option>
+                            <option value="Lunes a Sábado">Lunes a Sábado</option>
+                            <option value="Todos los días">Todos los días</option>
+                            <option value="Flexible">Flexible</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horario">
+                            Horario <span class="required">*</span>
+                        </label>
+                        <select id="horario" name="horario" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Mañana (8:00-14:00)">Mañana (8:00-14:00)</option>
+                            <option value="Tarde (14:00-20:00)">Tarde (14:00-20:00)</option>
+                            <option value="Todo el día">Todo el día</option>
+                            <option value="Personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contacto">
+                        Email de Contacto <span class="required">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        id="contacto"
+                        name="contacto"
+                        placeholder="contacto@clinica.cl"
+                        required
+                    >
+                </div>
+
+                <button id="submitBtn" type="submit" class="submit-button">
+                    ✅ Publicar Espacio
+                </button>
+
+                <div id="successMessage" class="success-message">
+                    <strong>¡Espacio Publicado Exitosamente! 🎉</strong>
+                    Tu espacio ya está disponible para que los profesionales lo arrienden.<br>
+                    Recibirás notificaciones cuando alguien esté interesado.
+                </div>
+            </form>
+        </div>
+
+        <div class="espacios-list">
+            <h2>📍 Mis Espacios Publicados</h2>
+            <div id="espaciosContainer">
+                <p style="color: #718096; text-align: center; padding: 20px;">
+                    Aún no has publicado ningún espacio. Completa el formulario arriba para comenzar.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1) PEGA AQUÍ la URL del Web App de Apps Script (termina en /exec)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxDcvsF9yJC4g4tbZPmeYqrR1tgWenippBverOimRo6DqOtiv5qMTR3SqGpr7KPU3ZDg/exec";
+
+        // Array para almacenar espacios publicados (local)
+        let espaciosPublicados = JSON.parse(localStorage.getItem('espaciosPublicados') || '[]');
+
+        // Mostrar espacios al cargar la página
+        mostrarEspacios();
+
+        document.getElementById('clinicaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            const oldBtnText = submitBtn.textContent;
+            submitBtn.textContent = "⏳ Guardando...";
+
+            // Recopilar datos del formulario
+            const nuevoEspacio = {
+                id: Date.now(),
+                nombreClinica: document.getElementById('nombreClinica').value.trim(),
+                direccion: document.getElementById('direccion').value.trim(),
+                comuna: document.getElementById('comuna').value,
+                telefono: document.getElementById('telefono').value.trim(),
+                tipoEspacio: document.getElementById('tipoEspacio').value,
+                equipamiento: document.getElementById('equipamiento').value.trim(),
+                precioHora: document.getElementById('precioHora').value,
+                metrosCuadrados: document.getElementById('metrosCuadrados').value,
+                diasDisponibles: document.getElementById('diasDisponibles').value,
+                horario: document.getElementById('horario').value,
+                contacto: document.getElementById('contacto').value.trim(),
+                fechaPublicacion: new Date().toLocaleDateString('es-CL'),
+                estado: 'Disponible'
+            };
+
+            try {
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PEGA_AQUI")) {
+                    throw new Error("Falta configurar GOOGLE_SCRIPT_URL con tu URL de Apps Script (Web App).");
+                }
+
+                // 2) Envío a Google Sheets (Apps Script)
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(nuevoEspacio)
+                })
+
+                // 3) Guardar también en localStorage (para que se vea en "Mis Espacios Publicados")
+                espaciosPublicados.push(nuevoEspacio);
+                localStorage.setItem('espaciosPublicados', JSON.stringify(espaciosPublicados));
+
+                // Mostrar mensaje de éxito
+                document.getElementById('successMessage').classList.add('show');
+
+                // Limpiar formulario
+                document.getElementById('clinicaForm').reset();
+
+                // Actualizar lista de espacios
+                mostrarEspacios();
+
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('show');
+                }, 5000);
+
+            } catch (err) {
+                alert("Error guardando en Google Sheets: " + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = oldBtnText;
+            }
+        });
+
+        function mostrarEspacios() {
+            const container = document.getElementById('espaciosContainer');
+
+            if (espaciosPublicados.length === 0) {
+                container.innerHTML = `
+                    <p style="color: #718096; text-align: center; padding: 20px;">
+                        Aún no has publicado ningún espacio. Completa el formulario arriba para comenzar.
+                    </p>
+                `;
+            } else {
+                container.innerHTML = espaciosPublicados.map(espacio => `
+                    <div class="espacio-item">
+                        <h3>${escapeHtml(espacio.tipoEspacio)} - ${escapeHtml(espacio.nombreClinica)}</h3>
+                        <p><strong>📍 Ubicación:</strong> ${escapeHtml(espacio.direccion)}, ${escapeHtml(espacio.comuna)}</p>
+                        <p><strong>💰 Precio:</strong> $${Number(espacio.precioHora || 0).toLocaleString('es-CL')}/hora</p>
+                        <p><strong>📅 Disponibilidad:</strong> ${escapeHtml(espacio.diasDisponibles)} - ${escapeHtml(espacio.horario)}</p>
+                        <p><strong>📏 Tamaño:</strong> ${escapeHtml(espacio.metrosCuadrados || 'No especificado')} m²</p>
+                        <p><strong>📞 Contacto:</strong> ${escapeHtml(espacio.contacto)}</p>
+                        <span class="espacio-status">${escapeHtml(espacio.estado)}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Mini helper para evitar inyectar HTML accidentalmente en la lista
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+    </script>
+</body>
+</html>
